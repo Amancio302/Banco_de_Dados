@@ -71,3 +71,37 @@ WHERE Superv.nomeFunc = "Júnia B. Mendes";
 #INNER JOIN Funcionario AS Superv ON Superv.idFunc = Departamento.idGerente
 #WHERE Superv.nomeFunc = "Júnia B. Mendes"));
 
+#Exercício 11
+
+SELECT Funcionario.nomeFunc, Dependente.nomeDep FROM Funcionario
+LEFT JOIN Dependente ON Dependente.idFunc = Funcionario.idFunc;
+
+#Exercício 12
+
+SELECT COUNT(Funcionario.idFunc) AS Quantidade FROM Funcionario
+NATURAL JOIN Departamento
+NATURAL JOIN Projeto
+WHERE Projeto.nomeProj = "ProdZ";
+
+#Exercício 13
+
+SELECT Funcionario.nomeFunc, COUNT(Trabalha.numHoras) FROM Funcionario
+NATURAL JOIN Trabalha
+WHERE Trabalha.numHoras > 10
+GROUP BY Funcionario.idFunc;
+
+#Exercício 14
+
+SELECT Funcionario.nomeFunc, COUNT(Trabalha.idProj) FROM Funcionario
+NATURAL JOIN Trabalha
+GROUP BY Funcionario.idFunc
+HAVING COUNT(Trabalha.idProj) > 1;
+
+#Exercício 15
+
+SELECT Departamento.nomeDepto, SUM(Funcionario.salario) AS Soma_Salarios FROM Funcionario
+NATURAL JOIN Departamento
+WHERE Departamento.idDepto IN (	SELECT Projeto.idDepto FROM Projeto
+				GROUP BY Projeto.idDepto
+				HAVING COUNT(Projeto.idProj) > 1)
+GROUP BY Departamento.nomeDepto;
